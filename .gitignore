@@ -1,0 +1,10 @@
+*.swp
+lightning_logs/
+wandb/
+data/
+**/__pycache__
+**/.ipynb_checkpoints
+*.egg-info/
+.flake8
+.isort.cfg
+.pre-commit-config.yaml 
