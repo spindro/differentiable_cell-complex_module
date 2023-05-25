@@ -1,7 +1,9 @@
 *.swp
 lightning_logs/
 wandb/
-data/
+data/Coauthor/
+data/Planetoid/
+
 **/__pycache__
 **/.ipynb_checkpoints
 *.egg-info/
