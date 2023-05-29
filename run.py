@@ -28,13 +28,13 @@ sweep_config = {
             "values": [
                 "cora",
                 "citeseer",
-                "pubmed",
-                "cs",
-                "physics",
+                # "pubmed",
+                # "cs",
+                # "physics",
                 "texas",
                 "wisconsin",
-                "squirrel",
-                "chameleon",
+                # "squirrel",
+                # "chameleon",
             ]
         },
         "seed": {"values": [42]},
@@ -53,7 +53,6 @@ sweep_config = {
         "k": {"values": [4]},
         "graph_loss_reg": {"values": [1]},
         "poly_loss_reg": {"values": [1]},
-        "ensemble_steps": {"values": [1]},
     },
 }
 
@@ -117,7 +116,7 @@ def sweep_iteration():
     elif wandb.config.dataset in ["squirrel", "chameleon"]:
         std = 0.1
         ensemble_steps = 5
-        gamma = 15
+        gamma = 20
         epochs = 200
     else:
         raise ValueError("Dataset not found")
@@ -162,6 +161,6 @@ def sweep_iteration():
 
 
 if __name__ == "__main__":
-    sweep_id = wandb.sweep(sweep_config, project="DCM_new_repo")
+    sweep_id = wandb.sweep(sweep_config, project="DCM")
     wandb.agent(sweep_id, function=sweep_iteration)
     wandb.finish()

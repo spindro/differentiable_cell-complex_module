@@ -1,12 +1,9 @@
 # DCM
 
-## Installation
+## Installation and Execution
 ```
-conda create --name dcm --yes
+conda create --name dcm --file conda_env.txt
 conda activate dcm
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia --yes
-pip install pytorch-lightning torchfunc wandb entmax torch_sparse torch_scatter
-conda install pyg -c pyg --yes
-conda install -c conda-forge graph-tool --yes
-conda install ipykernel ipywidgets networkx jupyter
+pip install pytorch-lightning==1.9.5 wandb==0.13.9 entmax==1.1
+python run.py
 ```
