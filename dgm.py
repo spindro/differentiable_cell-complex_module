@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
-from entmax import entmax15  # , entmax_bisect
+from entmax import entmax15
 from torch_geometric.utils import to_undirected
 
-
-# TODO check from my_entmax import entmax15
 
 
 class LayerNorm(nn.Module):
