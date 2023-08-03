@@ -7,10 +7,8 @@ from itertools import combinations, compress
 
 import networkx as nx
 import torch
-from entmax import entmax15  # , entmax_bisect
+from entmax import entmax15
 from torch import Tensor
-
-# TODO checkfrom my_entmax import entmax15
 from torch_geometric.utils import coalesce, remove_self_loops, scatter, to_undirected
 
 
