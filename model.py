@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
-from cell_utils import compute_boundary, compute_Lup, compute_Lup_entmax, line_graph
+from cell_utils import compute_boundary, compute_Lup_entmax, line_graph
 from dgm import DGM, LayerNorm
 from layers import CWNN, GNN, MLP
 from torch_geometric.utils import scatter
@@ -20,14 +20,12 @@ class DCM(pl.LightningModule):
         if hparams["use_gcn"]:
             self.graph_f = DGM(
                 GNN(hparams["dgm_layers"], dropout=hparams["dropout"]),
-                sampler=hparams["sampler"],
                 gamma=hparams["gamma"],
                 std=hparams["std"],
             )
         else:
             self.graph_f = DGM(
                 MLP(hparams["dgm_layers"], dropout=hparams["dropout"]),
-                sampler=hparams["sampler"],
                 gamma=hparams["gamma"],
                 std=hparams["std"],
             )
@@ -52,17 +50,13 @@ class DCM(pl.LightningModule):
             x.detach(), x_aux.detach(), edges, max_k=self.hparams["k"]
         )
         Ldo, xe, xe_aux = line_graph(x, row, col, i, xe, xe_aux)
-        np_probs = None
 
-        if self.hparams["sample_P"] == "fixed":
-            Lup = compute_Lup(boundaries, id_maps).to(Ldo.device)
-        else:  # self.hparams["sample_P"] == "entmax":
-            Lup, poly_probs = compute_Lup_entmax(
-                xe_aux, boundaries, id_maps, self.poly_ln, self.hparams["std"]
-            )
-            np_probs = scatter(
-                poly_probs, row, dim=0, dim_size=x.shape[0], reduce="sum"
-            ) + scatter(poly_probs, col, dim=0, dim_size=x.shape[0], reduce="sum")
+        Lup, poly_probs = compute_Lup_entmax(
+            xe_aux, boundaries, id_maps, self.poly_ln, self.hparams["std"]
+        )
+        np_probs = scatter(
+            poly_probs, row, dim=0, dim_size=x.shape[0], reduce="sum"
+        ) + scatter(poly_probs, col, dim=0, dim_size=x.shape[0], reduce="sum")
 
         x = self.gnn(x, edges).relu()
         xe = self.cwnn(xe, Ldo, Lup).relu()
