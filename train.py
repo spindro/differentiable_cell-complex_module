@@ -27,11 +27,9 @@ config = {
     "n_post":  1,
     "n_conv":  1,
     "n_dgm_layers":  2,
-    "n_dgm_blocks":  1,
     "dropout":  0.5,
     "lr":  0.01,
     "use_gcn":  False,
-    "sample_P":  "entmax",
     "k":  4,
     "graph_loss_reg":  1,
     "poly_loss_reg":  1,
@@ -51,10 +49,6 @@ def train(config):
     )
     
     data = dataset[0]
-    # Update data split
-    data = cross_validation_split(
-        data, dataset_name="cora", curr_seed=config["data_seed"]
-    )
 
     datamodule = LightningNodeData(
         data,
@@ -96,7 +90,6 @@ def train(config):
         "lr": config["lr"],
         "use_gcn": config["use_gcn"],
         "dropout": config["dropout"],
-        "sample_P": config["sample_P"],
         "k": config["k"],
         "gamma": gamma,
         "std": std,
