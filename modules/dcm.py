@@ -11,14 +11,12 @@ class DCM(torch.nn.Module):
         if hparams["use_gcn"]:
             self.graph_f = DGM(
                 GNN(hparams["dgm_layers"], dropout=hparams["dropout"]),
-                sampler=hparams["sampler"],
                 gamma=hparams["gamma"],
                 std=hparams["std"],
             )
         else:
             self.graph_f = DGM(
                 MLP(hparams["dgm_layers"], dropout=hparams["dropout"]),
-                sampler=hparams["sampler"],
                 gamma=hparams["gamma"],
                 std=hparams["std"],
             )

@@ -1,5 +1,5 @@
 import torch
-from modules.layers import CWNN, GNN, MLP
+from modules.layers import CWNN, GNN
 from torch_geometric.utils import scatter
 
 class CellNetwork(torch.nn.Module):
