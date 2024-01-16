@@ -44,7 +44,6 @@ sweep_config = {
         "n_post": {"values": [1]},
         "n_conv": {"values": [1]},
         "n_dgm_layers": {"values": [2]},
-        "n_dgm_blocks": {"values": [1]},
         "dropout": {"values": [0.5]},
         "lr": {"values": [0.01]},
         "use_gcn": {"values": [False]},
@@ -78,10 +77,6 @@ def sweep_iteration():
         raise ValueError("Dataset not found")
 
     data = dataset[0]
-    # Update data split
-    data = cross_validation_split(
-        data, dataset_name=wandb.config.dataset, curr_seed=wandb.config.data_seed
-    )
 
     datamodule = LightningNodeData(
         data,
