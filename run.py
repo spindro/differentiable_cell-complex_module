@@ -7,7 +7,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import pytorch_lightning as pl
 import torch
 import wandb
-from data_utils import cross_validation_split, get_hetero_dataset
+from data_utils import get_hetero_dataset
 from model import DCM
 from pytorch_lightning.loggers import WandbLogger
 from torch_geometric import seed_everything
