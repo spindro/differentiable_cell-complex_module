@@ -31,15 +31,13 @@ class DCM(torch.nn.Module):
         Ldo, xe, xe_aux = line_graph(data["x"], row, col, i, xe, xe_aux)
         np_probs = None
 
-        if self.hparams["sample_P"] == "fixed":
-            Lup = compute_Lup(boundaries, id_maps).to(Ldo.device)
-        else:  # self.hparams["sample_P"] == "entmax":
-            Lup, poly_probs = compute_Lup_entmax(
-                xe_aux, boundaries, id_maps, self.poly_ln, self.hparams["std"]
-            )
-            np_probs = scatter(
-                poly_probs, row, dim=0, dim_size=data["x"].shape[0], reduce="sum"
-            ) + scatter(poly_probs, col, dim=0, dim_size=data["x"].shape[0], reduce="sum")
+        Lup, poly_probs = compute_Lup_entmax(
+            xe_aux, boundaries, id_maps, self.poly_ln, self.hparams["std"]
+        )
+        np_probs = scatter(
+            poly_probs, row, dim=0, dim_size=data["x"].shape[0], reduce="sum"
+        ) + scatter(poly_probs, col, dim=0, dim_size=data["x"].shape[0], reduce="sum")
+        
         return {"x": data["x"], 
                 "xe": xe, 
                 "edges": edges, 
