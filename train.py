@@ -6,7 +6,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import pytorch_lightning as pl
 import torch
 import wandb
-from utils.data_utils import cross_validation_split
 from model.model_dcm import ModelDCM
 from pytorch_lightning.loggers import WandbLogger
 from torch_geometric import seed_everything
